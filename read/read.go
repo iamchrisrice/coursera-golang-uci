@@ -9,8 +9,7 @@ import (
 )
 
 type name struct {
-	fname string
-	lname string
+	fname, lname string
 }
 
 func stringToName(s string) name {

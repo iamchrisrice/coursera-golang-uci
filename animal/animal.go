@@ -8,9 +8,7 @@ import (
 )
 
 type Animal struct {
-	food       string
-	locomotion string
-	noise      string
+	food, locomotion, noise string
 }
 
 func (a Animal) Eat() {
