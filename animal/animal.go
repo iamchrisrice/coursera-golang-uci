@@ -43,16 +43,16 @@ func animalCommand(animal Animal, command string) {
 	}
 }
 
-func createAnimals() map[string]Animal {
+func createAnimals() *map[string]Animal {
 	animals := make(map[string]Animal)
 	animals["cow"] = Animal{"grass", "walk", "moo"}
 	animals["bird"] = Animal{"worms", "fly", "peep"}
 	animals["snake"] = Animal{"mice", "slither", "hsss"}
-	return animals
+	return &animals
 }
 
 func main() {
-	animals := createAnimals()
+	animals := *createAnimals()
 
 	for {
 		fmt.Print("> ")
