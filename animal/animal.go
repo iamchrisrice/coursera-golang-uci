@@ -32,7 +32,7 @@ func getAnimalNameAndCommandFromInput(input string) (string, string) {
 	return animal, command
 }
 
-func animalCommand(animal Animal, command string) {
+func animalCommand(animal *Animal, command string) {
 	switch command {
 	case "eat":
 		animal.Eat()
@@ -63,7 +63,7 @@ func main() {
 
 		animalName, command := getAnimalNameAndCommandFromInput(input)
 		if animal, exists := animals[animalName]; exists {
-			animalCommand(animal, command)
+			animalCommand(&animal, command)
 		}
 	}
 }
