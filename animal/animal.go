@@ -25,7 +25,7 @@ func (a Animal) Speak() {
 	fmt.Println(a.noise)
 }
 
-func getAnimalAndCommandFromInput(input string) (string, string) {
+func getAnimalNameAndCommandFromInput(input string) (string, string) {
 	w := strings.Split(input, " ")
 	animal := strings.ToLower(w[0])
 	command := strings.ToLower(w[1])
@@ -61,8 +61,8 @@ func main() {
 		stdin.Scan()
 		input := stdin.Text()
 
-		animalString, command := getAnimalAndCommandFromInput(input)
-		if animal, exists := animals[animalString]; exists {
+		animalName, command := getAnimalNameAndCommandFromInput(input)
+		if animal, exists := animals[animalName]; exists {
 			animalCommand(animal, command)
 		}
 	}
