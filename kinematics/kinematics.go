@@ -7,6 +7,7 @@ import (
 	"strconv"
 )
 
+// GenDisplaceFn returns a function to calculate displacement
 func GenDisplaceFn(a float64, v0 float64, s0 float64) func(float64) float64 {
 	return func(t float64) float64 {
 		return 0.5*a*t*t + v0*t + s0
