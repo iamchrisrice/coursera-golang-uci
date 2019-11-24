@@ -61,9 +61,9 @@ func main() {
 		stdin.Scan()
 		input := stdin.Text()
 
-		animal, command := getAnimalAndCommandFromInput(input)
-		if _, exists := animals[animal]; exists {
-			animalCommand(animals[animal], command)
+		animalString, command := getAnimalAndCommandFromInput(input)
+		if animal, exists := animals[animalString]; exists {
+			animalCommand(animal, command)
 		}
 	}
 }
