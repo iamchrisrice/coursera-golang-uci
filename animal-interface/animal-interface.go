@@ -54,8 +54,8 @@ func getCommandsFromInput(input string) (string, string, string) {
 	return strings.ToLower(w[0]), strings.ToLower(w[1]), strings.ToLower(w[2])
 }
 
-func createAnimal(name string) Animal {
-	switch name {
+func animalFromSpecies(species string) Animal {
+	switch species {
 	case "cow":
 		return Cow{}
 	case "bird":
@@ -88,13 +88,13 @@ func main() {
 		stdin.Scan()
 		input := stdin.Text()
 
-		cmd1, cmd2, cmd3 := getCommandsFromInput(input)
+		command1, command2, command3 := getCommandsFromInput(input)
 
-		switch cmd1 {
+		switch command1 {
 		case "newanimal":
-			animals[cmd2] = createAnimal(cmd3)
+			animals[command2] = animalFromSpecies(command3)
 		case "query":
-			query(animals[cmd2], cmd3)
+			query(animals[command2], command3)
 		}
 	}
 }
