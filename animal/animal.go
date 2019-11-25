@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
 	"os"
 	"strings"
@@ -23,24 +24,31 @@ func (a Animal) Speak() {
 	fmt.Println(a.noise)
 }
 
-func getAnimalNameAndCommandFromInput(input string) (string, string) {
-	var animal, command string
+func getAnimalNameAndVerbFromInput(input string) (string, string, error) {
+	var animal, verb string
+	err := errors.New("invalid input")
 	w := strings.Split(input, " ")
 	if len(w) == 2 {
 		animal = strings.ToLower(w[0])
-		command = strings.ToLower(w[1])
+		verb = strings.ToLower(w[1])
+		err = nil
 	}
-	return animal, command
+	return animal, verb, err
 }
 
-func animalCommand(animal *Animal, command string) {
-	switch command {
+func animalVerb(animal *Animal, verb string) error {
+	switch verb {
 	case "eat":
 		animal.Eat()
+		return nil
 	case "move":
 		animal.Move()
+		return nil
 	case "speak":
 		animal.Speak()
+		return nil
+	default:
+		return errors.New("unkown verb: " + verb)
 	}
 }
 
@@ -56,15 +64,24 @@ func main() {
 	animals := *createAnimals()
 
 	for {
+		var err error = nil
 		fmt.Print("> ")
 
 		stdin := bufio.NewScanner(os.Stdin)
 		stdin.Scan()
 		input := stdin.Text()
 
-		animalName, command := getAnimalNameAndCommandFromInput(input)
-		if animal, exists := animals[animalName]; exists {
-			animalCommand(&animal, command)
+		animalName, command, err := getAnimalNameAndVerbFromInput(input)
+		if err == nil {
+			if animal, exists := animals[animalName]; exists {
+				err = animalVerb(&animal, command)
+			} else {
+				err = errors.New("unknown species: " + animalName)
+			}
+		}
+
+		if err != nil {
+			fmt.Println(err)
 		}
 	}
 }
