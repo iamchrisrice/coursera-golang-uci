@@ -88,17 +88,19 @@ func main() {
 
 		c0, c1, c2, err := parseInput(input)
 
-		switch c0 {
-		case "newanimal":
-			animals[c1], err = animalFromSpecies(c2)
-		case "query":
-			if animal, exists := animals[c1]; exists {
-				err = query(animal, c2)
-			} else {
-				err = errors.New("unknown animal: " + c1)
+		if err == nil {
+			switch c0 {
+			case "newanimal":
+				animals[c1], err = animalFromSpecies(c2)
+			case "query":
+				if animal, exists := animals[c1]; exists {
+					err = query(animal, c2)
+				} else {
+					err = errors.New("unknown animal: " + c1)
+				}
+			default:
+				err = errors.New("invalid input")
 			}
-		default:
-			err = errors.New("invalid input")
 		}
 
 		if err != nil {
