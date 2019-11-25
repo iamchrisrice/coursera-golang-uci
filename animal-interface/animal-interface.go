@@ -15,39 +15,21 @@ type Animal interface {
 
 type Cow struct{}
 
-func (c Cow) Eat() {
-	fmt.Println("grass")
-}
-func (c Cow) Move() {
-	fmt.Println("walk")
-}
-func (c Cow) Speak() {
-	fmt.Println("moo")
-}
+func (c Cow) Eat()   { fmt.Println("grass") }
+func (c Cow) Move()  { fmt.Println("walk") }
+func (c Cow) Speak() { fmt.Println("moo") }
 
 type Bird struct{}
 
-func (b Bird) Eat() {
-	fmt.Println("worms")
-}
-func (b Bird) Move() {
-	fmt.Println("fly")
-}
-func (b Bird) Speak() {
-	fmt.Println("peep")
-}
+func (b Bird) Eat()   { fmt.Println("worms") }
+func (b Bird) Move()  { fmt.Println("fly") }
+func (b Bird) Speak() { fmt.Println("peep") }
 
 type Snake struct{}
 
-func (s Snake) Eat() {
-	fmt.Println("mice")
-}
-func (s Snake) Move() {
-	fmt.Println("slither")
-}
-func (s Snake) Speak() {
-	fmt.Println("hiss")
-}
+func (s Snake) Eat()   { fmt.Println("mice") }
+func (s Snake) Move()  { fmt.Println("slither") }
+func (s Snake) Speak() { fmt.Println("hiss") }
 
 func getCommandsFromInput(input string) (string, string, string) {
 	w := strings.Split(input, " ")
