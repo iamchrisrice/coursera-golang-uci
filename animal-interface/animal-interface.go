@@ -32,8 +32,14 @@ func (s Snake) Move()  { fmt.Println("slither") }
 func (s Snake) Speak() { fmt.Println("hiss") }
 
 func getCommandsFromInput(input string) (string, string, string) {
+	var command1, command2, command3 string
 	w := strings.Split(input, " ")
-	return strings.ToLower(w[0]), strings.ToLower(w[1]), strings.ToLower(w[2])
+	if len(w) == 3 {
+		command1 = strings.ToLower(w[0])
+		command2 = strings.ToLower(w[1])
+		command3 = strings.ToLower(w[2])
+	}
+	return command1, command2, command3
 }
 
 func animalFromSpecies(species string) Animal {
@@ -76,7 +82,9 @@ func main() {
 		case "newanimal":
 			animals[command2] = animalFromSpecies(command3)
 		case "query":
-			query(animals[command2], command3)
+			if animal, exists := animals[command2]; exists {
+				query(animal, command3)
+			}
 		}
 	}
 }

@@ -24,9 +24,12 @@ func (a Animal) Speak() {
 }
 
 func getAnimalNameAndCommandFromInput(input string) (string, string) {
+	var animal, command string
 	w := strings.Split(input, " ")
-	animal := strings.ToLower(w[0])
-	command := strings.ToLower(w[1])
+	if len(w) == 2 {
+		animal = strings.ToLower(w[0])
+		command = strings.ToLower(w[1])
+	}
 	return animal, command
 }
 
