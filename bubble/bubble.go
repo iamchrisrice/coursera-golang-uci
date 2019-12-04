@@ -46,7 +46,7 @@ func main() {
 
 	stdin := bufio.NewScanner(os.Stdin)
 	stdin.Scan()
-	input := stdin.Text()
+	input := strings.TrimSpace(stdin.Text())
 
 	sli := make([]int, 0, 0)
 
