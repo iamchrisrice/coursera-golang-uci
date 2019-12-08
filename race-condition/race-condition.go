@@ -17,7 +17,7 @@ func main() {
 	wg.Add(2)
 	go func() {
 		defer wg.Done()
-		result = append(result, "Valtteri Bottas")
+		result = append(result, "Max Verstappen")
 	}()
 	go func() {
 		defer wg.Done()
