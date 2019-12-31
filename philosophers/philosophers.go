@@ -61,13 +61,10 @@ func main() {
 
 	go host.begin()
 
-	for i := 0; i < numberOfPhilosophers; i++ {
-		chopsticks <- *new(chopstick)
-	}
-
 	philosophers := make([]*philosopher, numberOfPhilosophers)
 	for i := 0; i < numberOfPhilosophers; i++ {
 		philosophers[i] = &philosopher{i + 1}
+		chopsticks <- *new(chopstick)
 	}
 
 	for i := 0; i < numberOfPhilosophers; i++ {
