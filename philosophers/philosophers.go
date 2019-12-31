@@ -8,12 +8,12 @@ import (
 )
 
 const numberOfConcurrentEaters = 2
+const numberOfPhilosophers = 5
+const numberOfTimesEachPhilosopherEats = 3
 
 type host struct {
 	eaters chan bool
 }
-
-const numberOfTimesEachPhilosopherEats = 3
 
 type philosopher struct {
 	id int
@@ -22,11 +22,7 @@ type philosopher struct {
 type chopstick struct {
 }
 
-var chopsticks = sync.Pool{
-	New: func() interface{} {
-		return new(chopstick)
-	},
-}
+var chopsticks = make(chan chopstick, numberOfPhilosophers)
 
 func (p philosopher) eat(h *host) {
 	defer wg.Done()
@@ -34,17 +30,16 @@ func (p philosopher) eat(h *host) {
 	for i := 0; i < numberOfTimesEachPhilosopherEats; i++ {
 		<-h.eaters
 
-		fmt.Println("starting to eat", p.id)
+		left, right := <-chopsticks, <-chopsticks
 
-		leftChopstick := chopsticks.Get()
-		rightChopsticks := chopsticks.Get()
+		fmt.Println("starting to eat", p.id)
 
 		time.Sleep(time.Duration(rand.Intn(1000)) * time.Millisecond)
 
-		chopsticks.Put(leftChopstick)
-		chopsticks.Put(rightChopsticks)
-
 		fmt.Println("finished eating", p.id)
+
+		chopsticks <- right
+		chopsticks <- left
 
 		h.eaters <- true
 	}
@@ -66,12 +61,16 @@ func main() {
 
 	go host.begin()
 
-	philosophers := make([]*philosopher, 5)
-	for i := 0; i < 5; i++ {
-		philosophers[i] = &philosopher{i}
+	for i := 0; i < numberOfPhilosophers; i++ {
+		chopsticks <- *new(chopstick)
 	}
 
-	for i := 0; i < 5; i++ {
+	philosophers := make([]*philosopher, numberOfPhilosophers)
+	for i := 0; i < numberOfPhilosophers; i++ {
+		philosophers[i] = &philosopher{i + 1}
+	}
+
+	for i := 0; i < numberOfPhilosophers; i++ {
 		wg.Add(1)
 		go philosophers[i].eat(host)
 	}
