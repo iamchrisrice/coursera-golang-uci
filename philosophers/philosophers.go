@@ -23,9 +23,10 @@ type chopstick struct {
 }
 
 var chopsticks = make(chan chopstick, numberOfPhilosophers)
+var waitGroup sync.WaitGroup
 
 func (p philosopher) eat(h *host) {
-	defer wg.Done()
+	defer waitGroup.Done()
 
 	for i := 0; i < numberOfTimesEachPhilosopherEats; i++ {
 		<-h.eaters
@@ -44,8 +45,6 @@ func (p philosopher) eat(h *host) {
 		h.eaters <- true
 	}
 }
-
-var wg sync.WaitGroup
 
 func (h host) begin() {
 	for i := 0; i < numberOfConcurrentEaters; i++ {
@@ -68,9 +67,9 @@ func main() {
 	}
 
 	for i := 0; i < numberOfPhilosophers; i++ {
-		wg.Add(1)
+		waitGroup.Add(1)
 		go philosophers[i].eat(host)
 	}
 
-	wg.Wait()
+	waitGroup.Wait()
 }
